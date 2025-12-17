@@ -1,0 +1,5 @@
+{
+  "name": "AI Kanban Board",
+  "description": "A smart Kanban board powered by Gemini 2.5 to help you organize, generate, and breakdown tasks efficiently.",
+  "requestFramePermissions": []
+}
