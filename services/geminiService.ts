@@ -11,7 +11,7 @@ export const generateTasksFromGoal = async (goal: string): Promise<AITaskSuggest
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3-flash-preview",
       contents: `Generate a list of concrete, actionable tasks for a Kanban board based on this project goal: "${goal}". 
       Assign a realistic status (mostly 'todo', maybe some 'in-progress') and priority. 
       Keep descriptions concise but helpful.`,
@@ -48,7 +48,7 @@ export const enhanceTaskDescription = async (title: string, currentDescription: 
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3-flash-preview",
       contents: `Improve the description for the task "${title}". 
       Current description: "${currentDescription}".
       Provide a more professional, clear description and a list of 3-5 subtasks to complete it.`,
