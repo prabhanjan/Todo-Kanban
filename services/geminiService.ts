@@ -1,15 +1,18 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { AITaskSuggestion } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Helper to get AI instance safely
+const getAI = () => {
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    throw new Error("Gemini API Key is not configured in environment variables.");
+  }
+  return new GoogleGenAI({ apiKey });
+};
 
 export const generateTasksFromGoal = async (goal: string): Promise<AITaskSuggestion[]> => {
-  if (!process.env.API_KEY) {
-    console.error("API Key is missing");
-    return [];
-  }
-
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `Generate a list of concrete, actionable tasks for a Kanban board based on this project goal: "${goal}". 
@@ -44,9 +47,8 @@ export const generateTasksFromGoal = async (goal: string): Promise<AITaskSuggest
 };
 
 export const enhanceTaskDescription = async (title: string, currentDescription: string): Promise<{ description: string; subtasks: string[] }> => {
-  if (!process.env.API_KEY) return { description: currentDescription, subtasks: [] };
-
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: `Improve the description for the task "${title}". 
